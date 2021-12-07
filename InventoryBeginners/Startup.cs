@@ -10,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using InventoryBeginners.Interfaces;
+using InventoryBeginners.Repositories;
 
 namespace InventoryBeginners
 {
@@ -26,6 +28,7 @@ namespace InventoryBeginners
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddScoped<IUnit, UnitRepository>();
             services.AddDbContext<InventoryContext>(options => options.UseSqlServer(Configuration.GetConnectionString("dbconn"))); 
         }
 

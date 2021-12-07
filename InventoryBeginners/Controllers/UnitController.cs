@@ -5,24 +5,87 @@ using System.Linq;
 using System.Threading.Tasks;
 using InventoryBeginners.Data;
 using InventoryBeginners.Models;
-using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using InventoryBeginners.Interfaces;
+using InventoryBeginners.Repositories;
 
 namespace InventoryBeginners.Controllers
 {
     public class UnitController : Controller
     {
-        public IActionResult Index()//Read method of CRUD operations.  Lists all data from the units table
+        private readonly IUnit _unitRepo;
+
+        public UnitController(IUnit unitrepo)
         {
-            List<Unit> units = _context.Units.ToList(); //Gets the list of units from the context
+            _unitRepo = unitrepo;
+        }
+
+        public IActionResult Index()
+        {
+            List<Unit> units = _unitRepo.GetItems();
             return View(units);
         }
-     
-        private readonly InventoryContext _context;
 
-        //Dependency Injection
-        public UnitController(InventoryContext context)
+        public IActionResult Create()
         {
-            _context = context;
+            Unit unit = new Unit();
+            return View(unit);
+        }
+
+        [HttpPost]
+        public IActionResult Create(Unit unit)
+        {
+            try{
+                unit = _unitRepo.Create(unit);
+            }
+            catch{
+            
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Details(int id)
+        {
+            Unit unit = _unitRepo.GetUnit(id);
+            return View(unit);
+        }
+
+        public IActionResult Edit(int id)
+        {
+            Unit unit = _unitRepo.GetUnit(id);
+            return View(unit);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Unit unit)
+        {
+            try{
+                _unitRepo.Edit(unit);
+            }
+            catch{
+            
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Delete(int id)
+        {
+            Unit unit = _unitRepo.GetUnit(id);
+            return View(unit);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(Unit unit)
+        {
+            try
+            {
+                _unitRepo.Delete(unit);
+            }
+            catch
+            {
+
+            }
+            return RedirectToAction(nameof(Index));
         }
     }
 }
