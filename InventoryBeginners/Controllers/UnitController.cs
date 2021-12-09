@@ -8,6 +8,7 @@ using InventoryBeginners.Models;
 using Microsoft.EntityFrameworkCore;
 using InventoryBeginners.Interfaces;
 using InventoryBeginners.Repositories;
+using static InventoryBeginners.Models.Unit;
 
 namespace InventoryBeginners.Controllers
 {
@@ -20,9 +21,47 @@ namespace InventoryBeginners.Controllers
             _unitRepo = unitrepo;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string sortExpression = "")
         {
-            List<Unit> units = _unitRepo.GetItems();
+            ViewData["SortParamName"] = "name";
+            ViewData["SortParamDesc"] = "description";
+
+            ViewData["SortIconName"] = "";
+            ViewData["SortIconDesc"] = "";
+
+
+            SortOrder sortOrder;
+            string sortProperty;
+            //Note, case expression name and the ViewData SortParam values are opposite, this is incase
+            //a sort button is called more than once, it flips the order.
+            switch(sortExpression.ToLower()){
+                case "name_desc":
+                    sortOrder = SortOrder.Descending;
+                    sortProperty = "name";
+                    ViewData["SortIconName"] = "fa fa-arrow-up";
+                    ViewData["SortParamName"] = "name";
+                    break;
+                case "description":
+                    sortOrder = SortOrder.Ascending;
+                    sortProperty = "description";
+                    ViewData["SortIconDesc"] = "fa fa-arrow-down";
+                    ViewData["SortParamDesc"] = "description_desc";
+                    break;
+                case "description_desc":
+                    sortOrder = SortOrder.Descending;
+                    sortProperty = "description";
+                    ViewData["SortIconDesc"] = "fa fa-arrow-up";
+                    ViewData["SortParamDesc"] = "description";
+                    break;
+                default:
+                    sortOrder = SortOrder.Ascending;
+                    sortProperty = "name";
+                    ViewData["SortIconName"] = "fa fa-arrow-down";
+                    ViewData["SortParamName"] = "name_desc";
+                    break;
+            }
+
+            List<Unit> units = _unitRepo.GetItems(sortProperty, sortOrder);
             return View(units);
         }
 

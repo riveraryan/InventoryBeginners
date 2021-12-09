@@ -4,6 +4,8 @@
     ViewData["Title"] = "Index";
 }
 
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+
 <h1>Units</h1>
 
 <p>
@@ -13,10 +15,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                <i class="@ViewData["sortIconName"]" arial-hidden="true"></i>
+                <a asp-action="Index" asp-route-sortExpression="@ViewData["SortParamName"]">
+                    @Html.DisplayNameFor(model => model.Name)
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                <i class="@ViewData["sortIconDesc"]" arial-hidden="true"></i>
+                <a asp-action="Index" asp-route-sortExpression="@ViewData["SortParamDesc"]">
+                    @Html.DisplayNameFor(model => model.Description)
+                </a>
             </th>
             <th></th>
         </tr>

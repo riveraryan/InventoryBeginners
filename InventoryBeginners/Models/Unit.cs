@@ -8,6 +8,8 @@ namespace InventoryBeginners.Models
 {
     public class Unit
     {
+        public enum SortOrder{ Ascending=0, Descending=1 }
+
         public int Id { get; set; }
 
         [Required]
