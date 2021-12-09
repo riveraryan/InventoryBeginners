@@ -7,6 +7,7 @@ using InventoryBeginners.Interfaces;
 using InventoryBeginners.Models;
 using Microsoft.EntityFrameworkCore;
 using static InventoryBeginners.Models.Unit;
+using Tools;
 
 namespace InventoryBeginners.Repositories
 {

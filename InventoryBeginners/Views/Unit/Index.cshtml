@@ -1,7 +1,9 @@
-﻿@model IEnumerable<InventoryBeginners.Models.Unit>
+﻿@using Tools;
+@model IEnumerable<InventoryBeginners.Models.Unit>
 
 @{
     ViewData["Title"] = "Index";
+    SortModel sortModel = (SortModel)ViewData["sortModel"];
 }
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
@@ -15,14 +17,14 @@
     <thead>
         <tr>
             <th>
-                <i class="@ViewData["sortIconName"]" arial-hidden="true"></i>
-                <a asp-action="Index" asp-route-sortExpression="@ViewData["SortParamName"]">
+                <i class="@sortModel.GetColumn("name").SortIcon" arial-hidden="true"></i>
+                <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("name").SortExpression">
                     @Html.DisplayNameFor(model => model.Name)
                 </a>
             </th>
             <th>
-                <i class="@ViewData["sortIconDesc"]" arial-hidden="true"></i>
-                <a asp-action="Index" asp-route-sortExpression="@ViewData["SortParamDesc"]">
+                <i class="@sortModel.GetColumn("description").SortIcon" arial-hidden="true"></i>
+                <a asp-action="Index" asp-route-sortExpression="@sortModel.GetColumn("description").SortExpression">
                     @Html.DisplayNameFor(model => model.Description)
                 </a>
             </th>
